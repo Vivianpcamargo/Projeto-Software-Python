@@ -10,7 +10,7 @@
 
 ## :dart: Sobre
 
-Projeto desenvolvido para a matéria Projeto Software da faculdade Impacta, seu objetivo é auxiliar no acompanhamento de exercícios realizados por um usuário, podendo acrescentar e consultar tempo de execução, alterar e deletar se for necessário.
+Projeto desenvolvido para a matéria Projeto Software da faculdade Impacta, seu objetivo é auxiliar no acompanhamento de treinos realizados por um usuário, podendo acrescentar e consultar tempo de execução, alterar e deletar se for necessário.
 
 ## :building_construction: Instalação do projeto
 
