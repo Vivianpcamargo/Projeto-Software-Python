@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title> Workout Day </title>
+
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="shortcut icon" href="../static/images/logo.png">
+</head>
+
+<body>
+  <div class="full">
+    <form action="/new-workout" method="POST">
+      <h1> Workout </h1>
+
+      <div class="block-form">
+        <div class="item-form">
+          <label> Start </label>
+          <input type="datetime-local" name="inputStart" required>
+        </div>
+
+        <div class="item-form">
+          <label> Conclusion </label>
+          <input type="datetime-local" name="inputConclusion" required>
+        </div>
+
+        <div class="item-form">
+          <label> Exercise </label>
+          <select name="inputExercise" required>
+            <option value="default"> Choose one </option>
+            {% for item in datas %}
+            <option value="{{item[0]}}">{{item[0]}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="item-form">
+          <label> Intensity </label>
+          <select name="inputIntensity" required>
+            <option value="default"> Choose one </option>
+            <option value="low"> Low </option>
+            <option value="medium"> Medium </option>
+            <option value="high"> High </option>
+          </select>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="item-form" style="width: 65%; padding: 0% 7% 0% 7%;">
+        <label> Description </label>
+        <input type="text" name="inputDescription" required>
+      </div>
+
+      <div class="submit-form">
+        <input type="submit" value="Create" style="margin: 1% 0% 1% 0%;">
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

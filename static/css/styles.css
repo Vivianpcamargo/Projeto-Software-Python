@@ -1,0 +1,163 @@
+@font-face {
+  font-family: 'Rubik';
+  src: url("../font/Rubik-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'Rubik-Light';
+  src: url("../font/Rubik-Light.ttf");
+}
+
+body {
+  background: #dfbff3;
+  font-family: 'Rubik';
+  display: flex;
+  margin: 0%;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.side {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#left-side {
+  background-image: linear-gradient(to bottom, #9237CA 0%, rgba(54.82071854174137, 10.641552228480577, 75.61091154813766, 0.8899999856948853) 100%);
+}
+
+#right-side {
+  background-color: #dfbff3;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('../images/logo.png');
+}
+
+span {
+  color: rgba(222.00000196695328, 235.0000011920929, 241.00000083446503, 1);
+  text-align: center;
+  font-size: 40;
+  letter-spacing: 5;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 25;
+  letter-spacing: 5;
+}
+
+a:hover,
+a.active {
+  background-color: transparent;
+  color: white;
+}
+
+h1 {
+  color: rgba(91.37911543250084, 99.37805861234665, 103.0698949098587, 1);
+  align-items: center;
+  font-family: 'Rubik-Light';
+  font-size: 40;
+  letter-spacing: 5;
+}
+
+label {
+  color: rgba(91.37911543250084, 99.37805861234665, 103.0698949098587, 1);
+  font-size: 25;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.block-form {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-form {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.submit-form {
+  width: 76%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0% 2% 0% 2%;
+}
+
+input,
+select {
+  background: rgb(237, 240, 241);
+  border: 3px solid rgba(91.37911543250084, 99.37805861234665, 103.0698949098587, 1);
+  border-radius: 8px;
+  margin: 5% 0% 5% 0%;
+  font-family: 'Rubik';
+  font-size: 20;
+  letter-spacing: 1.5;
+}
+
+input[type=name],
+input[type=password],
+input[type=datetime-local] {
+  width: 400px;
+  height: 20px;
+  padding: 20px;
+}
+
+input[type=text] {
+  width: 100%;
+  height: 100px;
+  padding: 20px;
+  margin: 3%;
+}
+
+select {
+  width: 400px;
+  height: 50px;
+  text-align-last: center;
+}
+
+input[type=submit] {
+  background-color: rgba(146.3129273056984, 55.37627533078194, 202.04841256141663, 1);
+  width: 200;
+  height: 50;
+  margin: 5%;
+  opacity: 0.5;
+  border-radius: 20px;
+  border: transparent;
+  color: white;
+  letter-spacing: 5;
+}
+
+.fake-button {
+  background-color: rgba(146.3129273056984, 55.37627533078194, 202.04841256141663, 1);
+  width: 200;
+  height: 50;
+  opacity: 0.5;
+  border-radius: 20px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
