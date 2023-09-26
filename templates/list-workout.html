@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title> Workout Day </title>
+
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="shortcut icon" href="../static/images/logo.png">
+</head>
+
+<body>
+  <div class="full">
+    <h1> Workout </h1>
+
+    <table id="table-workouts">
+      <tbody>
+        <tr>
+          <th class="small"> Id </th>
+          <th> Start </th>
+          <th> Conclusion </th>
+          <th> Exercise </th>
+          <th> Intensity </th>
+          <th class="big"> Description </th>
+          <th> Actions </th>
+        </tr>
+
+        {% for item in datas %}
+        <tr>
+          <td class="small"> {{ item.workout_id }} </td>
+          <td> {{ item.workout_start }} </td>
+          <td> {{ item.workout_conclusion }} </td>
+          <td> {{ item.exercise_name }} </td>
+          <td> {{ item.instensity }} </td>
+          <td class="big"> {{ item.description }} </td>
+          <td>
+            <img src="../static/images/logo-editar.png" alt="Update Logo">
+            <img src="../static/images/logo-deletar.png" alt="Delete Logo">
+          </td>
+        </tr>
+        {% endfor %}
+
+        <!-- <tr>
+          <td class="small"> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td class="big"> </td>
+          <td> </td>
+        </tr> -->
+      </tbody>
+    </table>
+
+    <div class="footer" style="width: 80%;">
+      <div class="fake-button">
+        <a href='/new-workout'> New </a>
+      </div>
+
+      <div class="fake-button">
+        <a href='/logout'> Logout </a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

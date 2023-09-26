@@ -2,7 +2,7 @@
 
 :label: Tecnologia Principal: Python
 <br> :label: Tecnologia Secundária: HTML e CSS
-<br> :bricks: Framework: Flask
+<br> :bricks: Framework: Flask e Django 
 <br> :classical_building: Software: Docker
 <br> :luggage: Banco de Dados: MySQL
 <br> :page_facing_up: Padronização: pep8
