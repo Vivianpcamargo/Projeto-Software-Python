@@ -33,8 +33,12 @@
           <td> {{ item.instensity }} </td>
           <td class="big"> {{ item.description }} </td>
           <td>
-            <img src="../static/images/logo-editar.png" alt="Update Logo">
-            <img src="../static/images/logo-deletar.png" alt="Delete Logo">
+            <a href='/update-workout/{{ item.workout_id }}'>
+              <img src="../static/images/logo-editar.png" alt="Update Logo">
+            </a>
+            <a>
+              <img src="../static/images/logo-deletar.png" alt="Delete Logo">
+            </a>
           </td>
         </tr>
         {% endfor %}

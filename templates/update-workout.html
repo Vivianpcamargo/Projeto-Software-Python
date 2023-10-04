@@ -10,27 +10,28 @@
 
 <body>
   <div class="full">
-    <form action="/create-new-workout" method="POST">
+    {% for item in datas %}
+    <form action="/make-update-workout/{{ item.workout_id }}" method="POST">
       <h1> Workout </h1>
 
       <div class="item-form">
         <div class="block-form">
           <div class="items-form">
             <label> Start </label>
-            <input type="datetime-local" name="inputStart" required>
+            <input type="datetime-local" name="inputStart" value="{{ item.workout_start }}" required>
           </div>
 
           <div class="items-form">
             <label> Conclusion </label>
-            <input type="datetime-local" name="inputConclusion" required>
+            <input type="datetime-local" name="inputConclusion" value="{{ item.workout_conclusion }}" required>
           </div>
 
           <div class="items-form">
             <label> Exercise </label>
             <select name="inputExercise" required>
-              <option value="default"> Choose one </option>
-              {% for item in datas %}
-              <option value="{{item[0]}}">{{item[1]}}</option>
+              <option value="{{ item.exercise_id }}"> {{ item.exercise_name }} </option>
+              {% for exercise in exercises %}
+              <option value="{{exercise[0]}}">{{exercise[1]}}</option>
               {% endfor %}
             </select>
           </div>
@@ -38,20 +39,21 @@
           <div class="items-form">
             <label> Intensity </label>
             <select name="inputIntensity" required>
-              <option value="default"> Choose one </option>
-              <option value="low"> Low </option>
-              <option value="medium"> Medium </option>
-              <option value="high"> High </option>
+              <option value="{{ item.instensity }}"> {{ item.instensity }} </option>
+              <option value="Low"> Low </option>
+              <option value="Medium"> Medium </option>
+              <option value="High"> High </option>
             </select>
           </div>
         </div>
 
         <label> Description </label>
-        <input type="text" name="inputDescription" required>
+        <input type="text" name="inputDescription" value="{{ item.description }}" required>
       </div>
+      {% endfor %}
 
       <div class="footer">
-        <input type="submit" value="Create">
+        <input type="submit" value="Update">
 
         <div class="fake-button">
           <a href='/list-workout'> Back </a>

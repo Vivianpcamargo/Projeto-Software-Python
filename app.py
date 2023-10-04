@@ -150,7 +150,7 @@ def new_workout():
     cursor = mysql.get_db().cursor()
 
     cursor.execute(
-        'SELECT exercise_name FROM tbl_exercise'
+        'SELECT exercise_id, exercise_name FROM tbl_exercise'
     )
 
     datas = cursor.fetchall()
@@ -163,21 +163,12 @@ def create_new_workout():
     try:
         start = request.form['inputStart']
         conclusion = request.form['inputConclusion']
-        exercise_name = request.form['inputExercise']
+        exercise_id = request.form['inputExercise']
         instensity = request.form['inputIntensity']
         description = request.form['inputDescription']
 
-        if exercise_name != 'default' and instensity != 'default':
+        if exercise_id != 'default' and instensity != 'default':
             cursor = mysql.get_db().cursor()
-
-            cursor.execute(
-                'SELECT exercise_id FROM tbl_exercise WHERE exercise_name = %s',
-                (exercise_name)
-            )
-
-            result = cursor.fetchone()
-
-            exercise_id = result[0]
 
             cursor.execute(
                 'INSERT INTO tbl_workout (workout_start, workout_conclusion, description, instensity, user_id, exercise_id) VALUES (%s, %s, %s, %s, %s, %s)',
@@ -194,6 +185,81 @@ def create_new_workout():
             return json.dumps({'html': '<span>Fill in all fields!</span>'})
     except Exception as e:
         return json.dumps({'error': str(e)})
+
+
+@app.route('/update-workout/<workout_id>')
+def update_workout(workout_id=None):
+    if workout_id is not None:
+        datas = []
+
+        cursor = mysql.get_db().cursor()
+
+        cursor.execute(
+            'SELECT * FROM tbl_workout WHERE workout_id = %s',
+            (workout_id)
+        )
+
+        all = cursor.fetchone()
+
+        cursor.execute(
+            'SELECT exercise_name FROM tbl_exercise WHERE exercise_id = %s',
+            (all[6])
+        )
+
+        exercise_name = cursor.fetchone()
+
+        datas.append({
+            'workout_id': all[0],
+            'workout_start': all[1],
+            'workout_conclusion': all[2],
+            'exercise_id': all[6],
+            'exercise_name': exercise_name[0],
+            'instensity': all[4],
+            'description': all[3],
+        })
+
+        cursor.execute(
+            'SELECT exercise_id, exercise_name FROM tbl_exercise'
+        )
+
+        exercises = cursor.fetchall()
+
+        return render_template('update-workout.html',
+                               datas=datas, exercises=exercises)
+    else:
+        return json.dumps({'html': '<span>Id invalid!</span>'})
+
+
+@app.route('/make-update-workout/<workout_id>', methods=['POST'])
+def make_update_workout(workout_id=None):
+    if workout_id is not None:
+        try:
+            start = request.form['inputStart']
+            conclusion = request.form['inputConclusion']
+            exercise_id = request.form['inputExercise']
+            instensity = request.form['inputIntensity']
+            description = request.form['inputDescription']
+
+            if exercise_id != 'default' and instensity != 'default':
+                cursor = mysql.get_db().cursor()
+
+                cursor.execute(
+                    'UPDATE tbl_workout SET workout_start = %s, workout_conclusion = %s, description = %s, instensity = %s, exercise_id = %s WHERE workout_id = %s',
+                    (start, conclusion, description,
+                     instensity, exercise_id, workout_id)
+                )
+
+                mysql.get_db().commit()
+
+                cursor.close()
+
+                return list_workout()
+            else:
+                return json.dumps({'html': '<span>Fill in all fields!</span>'})
+        except Exception as e:
+            return json.dumps({'error': str(e)})
+    else:
+        return json.dumps({'html': '<span>Id invalid!</span>'})
 
 
 if __name__ == "__main__":
