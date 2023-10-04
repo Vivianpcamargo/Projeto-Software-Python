@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template, json, request, session
 from flaskext.mysql import MySQL
 
 mysql = MySQL()
@@ -9,6 +9,8 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = '123456'
 app.config['MYSQL_DATABASE_DB'] = 'workoutDay'
 app.config['MYSQL_DATABASE_HOST'] = '172.18.0.2'
+
+app.secret_key = 'veRYdPHOqig2WqQZLzZxoGvxVy0Un6cV'
 
 mysql.init_app(app)
 
@@ -65,14 +67,20 @@ def new_sign_in():
         cursor.close()
 
         if len(result) == 1:
-            global user_id
-            user_id = result[0]
+            session['user_id'] = result[0]
 
             return list_workout()
         else:
             return json.dumps({'html': '<span>Invalid user!</span>'})
     except Exception as e:
         return json.dumps({'error': str(e)})
+
+
+@app.route('/logout')
+def logout():
+    session['user_id'] = 0
+
+    return render_template('sign-in.html')
 
 
 @app.route('/sign-up')
@@ -107,18 +115,51 @@ def list_workout():
     cursor = mysql.get_db().cursor()
 
     cursor.execute(
+        'SELECT * FROM tbl_workout WHERE user_id = %s',
+        (session['user_id'])
+    )
+
+    all = cursor.fetchall()
+
+    datas = []
+
+    for item in all:
+        cursor.execute(
+            'SELECT exercise_name FROM tbl_exercise WHERE exercise_id = %s',
+            ({item[6]})
+        )
+
+        exercise_name = cursor.fetchone()
+
+        datas.append({
+            'workout_id': item[0],
+            'workout_start': item[1].strftime("%d/%m/%Y %H:%M"),
+            'workout_conclusion': item[2].strftime("%d/%m/%Y %H:%M"),
+            'exercise_name': exercise_name[0],
+            'instensity': item[4],
+            'description': item[3],
+        })
+
+    cursor.close()
+
+    return render_template('list-workout.html', datas=datas)
+
+
+@app.route('/new-workout')
+def new_workout():
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute(
         'SELECT exercise_name FROM tbl_exercise'
     )
 
     datas = cursor.fetchall()
 
-    cursor.close()
-
     return render_template('new-workout.html', datas=datas)
 
 
-@app.route('/new-workout', methods=['POST'])
-def new_workout():
+@app.route('/create-new-workout', methods=['POST'])
+def create_new_workout():
     try:
         start = request.form['inputStart']
         conclusion = request.form['inputConclusion']
@@ -140,7 +181,8 @@ def new_workout():
 
             cursor.execute(
                 'INSERT INTO tbl_workout (workout_start, workout_conclusion, description, instensity, user_id, exercise_id) VALUES (%s, %s, %s, %s, %s, %s)',
-                (start, conclusion, description, instensity, user_id, exercise_id)
+                (start, conclusion, description, instensity,
+                 session['user_id'], exercise_id)
             )
 
             mysql.get_db().commit()
