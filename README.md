@@ -2,11 +2,11 @@
 
 :label: Tecnologia Principal: Python
 <br> :label: Tecnologia Secundária: HTML e CSS
-<br> :bricks: Framework: Flask e Django 
+<br> :bricks: Framework: Flask e Django
 <br> :classical_building: Software: Docker
 <br> :luggage: Banco de Dados: MySQL
 <br> :page_facing_up: Padronização: pep8
-<br> :book: Documentação: <a href='https://www.figma.com/file/fyaHkWlhWGfZwVCmKS2jbS/Workout-Day?type=design&node-id=0%3A1&mode=design&t=K9387TwYMjv6e5cH-1'> Figma </a> e <a href='https://api.postman.com/collections/10550152-b5e1a690-b023-49b4-aef0-f847c685f197?access_key=PMAT-01HABB0PBFM6AV4YF6MPWEZCYJ'> Postman
+<br> :book: Documentação: <a href='https://api.postman.com/collections/10550152-b5e1a690-b023-49b4-aef0-f847c685f197?access_key=PMAT-01HABB0PBFM6AV4YF6MPWEZCYJ'> Figma </a> e <a href='https://api.postman.com/collections/10550152-b5e1a690-b023-49b4-aef0-f847c685f197?access_key=PMAT-01HABB0PBFM6AV4YF6MPWEZCYJ'> Postman
 
 ## :dart: Sobre
 
