@@ -12,7 +12,7 @@
   <div class="full">
     <h1> Workout </h1>
 
-    <table id="table-workouts">
+    <table class="table-workouts">
       <tbody>
         <tr>
           <th class="small"> Id </th>
@@ -36,14 +36,15 @@
             <a href='/update-workout/{{ item.workout_id }}'>
               <img src="../static/images/logo-editar.png" alt="Update Logo">
             </a>
-            <a>
+            <a href='/delete-confirmation/{{ item.workout_id }}'>
               <img src="../static/images/logo-deletar.png" alt="Delete Logo">
             </a>
           </td>
         </tr>
         {% endfor %}
 
-        <!-- <tr>
+        {% for n in range(13 - datas | length) %}
+        <tr>
           <td class="small"> </td>
           <td> </td>
           <td> </td>
@@ -51,11 +52,38 @@
           <td> </td>
           <td class="big"> </td>
           <td> </td>
-        </tr> -->
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
 
-    <div class="footer" style="width: 80%;">
+    {% if workout_id != undefined %}
+    <section class="modal">
+      <div class="modal-content">
+        <a href='/list-workout' class="close-modal">&times;</a>
+        <h2>Confirmation</h2>
+
+        <p>Do you really want to delete this workout?</p>
+
+        <div class="fake-button-modal">
+          <a href='/delete-workout/{{ workout_id }}'> Delete </a>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    {% if error != undefined %}
+    <section class="modal">
+      <div class="modal-content">
+        <a href='/list-workout' class="close-modal">&times;</a>
+        <h2>{{ error['title'] }}</h2>
+
+        <p>{{ error['contents'] }}</p>
+      </div>
+    </section>
+    {% endif %}
+
+    <div class="footer-list">
       <div class="fake-button">
         <a href='/new-workout'> New </a>
       </div>

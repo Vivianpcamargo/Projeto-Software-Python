@@ -30,6 +30,17 @@
       <input type="submit" value="Sign up">
     </form>
   </div>
+
+  {% if error != undefined %}
+  <section class="modal">
+    <div class="modal-content">
+      <a href='/sign-up' class="close-modal">&times;</a>
+      <h2>{{ error['title'] }}</h2>
+
+      <p>{{ error['contents'] }}</p>
+    </div>
+  </section>
+  {% endif %}
 </body>
 
 </html>

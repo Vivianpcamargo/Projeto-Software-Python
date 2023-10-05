@@ -50,6 +50,17 @@
         <input type="text" name="inputDescription" required>
       </div>
 
+      {% if error != undefined %}
+      <section class="modal">
+        <div class="modal-content">
+          <a href='/new-workout' class="close-modal">&times;</a>
+          <h2>{{ error['title'] }}</h2>
+
+          <p>{{ error['contents'] }}</p>
+        </div>
+      </section>
+      {% endif %}
+
       <div class="footer">
         <input type="submit" value="Create">
 
