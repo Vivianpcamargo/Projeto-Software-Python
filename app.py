@@ -85,7 +85,10 @@ def new_sign_in():
         if result and len(result) == 1:
             session['user_id'] = result[0]
 
-            return list_workout()
+            if result[0] == 1:
+                return list_exercise()
+            else:
+                return list_workout()
         else:
             error = {
                 'title': 'Invalid user',
@@ -143,6 +146,172 @@ def new_sign_up():
         return render_template('sign-up.html', error=error)
 
 
+@app.route('/list-exercise')
+def list_exercise(exercise_id=None):
+    try:
+        cursor = mysql.get_db().cursor()
+
+        cursor.execute(
+            'SELECT * FROM tbl_exercise'
+        )
+
+        exercises = cursor.fetchall()
+
+        cursor.close()
+
+        if exercise_id is None:
+            return render_template('list-exercise.html', exercises=exercises)
+        else:
+            return render_template('list-exercise.html',
+                                   exercise_id=exercise_id,
+                                   exercises=exercises)
+    except Exception as e:
+        error = {
+            'title': 'Internal Server Error',
+            'contents': str(e)
+        }
+
+        return render_template('list-workout.html', error=error)
+
+
+@app.route('/new-exercise')
+def new_exercise():
+    try:
+        cursor = mysql.get_db().cursor()
+
+        cursor.execute(
+            'SELECT exercise_id, exercise_name FROM tbl_exercise'
+        )
+
+        datas = cursor.fetchall()
+
+        return render_template('new-exercise.html', datas=datas)
+    except Exception as e:
+        error = {
+            'title': 'Internal Server Error',
+            'contents': str(e)
+        }
+
+        return render_template('new-exercise.html', error=error)
+
+
+@app.route('/create-new-exercise', methods=['POST'])
+def create_new_exercise():
+    try:
+        exercise_name = request.form['inputExercise']
+
+        if exercise_name != 'default':
+            cursor = mysql.get_db().cursor()
+
+            cursor.execute(
+                'INSERT INTO tbl_exercise ' +
+                '(exercise_name) ' +
+                'VALUES (%s)',
+                (exercise_name)
+            )
+
+            mysql.get_db().commit()
+
+            cursor.close()
+
+            return list_exercise()
+        else:
+            error = {
+                'title': 'Invalid fields',
+                'contents': 'Check if the fields Exercise and ' +
+                'Intensity are filled correctly and try again!'
+            }
+
+            return render_template('new-exercise.html', error=error)
+    except Exception as e:
+        error = {
+            'title': 'Internal Server Error',
+            'contents': str(e)
+        }
+
+        return render_template('new-exercise.html', error=error)
+
+
+@app.route('/update-exercise/<exercise_id>')
+def update_exercise(exercise_id=None):
+    try:
+        cursor = mysql.get_db().cursor()
+
+        cursor.execute(
+            'SELECT * FROM tbl_exercise WHERE exercise_id = %s',
+            (exercise_id)
+        )
+
+        exercise = cursor.fetchall()
+
+        return render_template('update-exercise.html',
+                               exercise=exercise)
+    except Exception as e:
+        error = {
+            'title': 'Internal Server Error',
+            'contents': str(e)
+        }
+
+        return render_template('list-exercise.html', error=error)
+
+
+@app.route('/make-update-exercise/<exercise_id>', methods=['POST'])
+def make_update_exercise(exercise_id=None):
+    try:
+        exercise_name = request.form['inputExercise']
+
+        cursor = mysql.get_db().cursor()
+
+        cursor.execute(
+            'UPDATE tbl_exercise SET ' +
+            'exercise_name = %s ' +
+            'WHERE exercise_id = %s',
+            (exercise_name, exercise_id)
+        )
+
+        mysql.get_db().commit()
+
+        cursor.close()
+
+        return list_exercise()
+    except Exception as e:
+        error = {
+            'title': 'Internal Server Error',
+            'contents': str(e)
+        }
+
+        return render_template('list-exercise.html', error=error)
+
+
+@app.route('/delete-confirmation-exercise/<exercise_id>')
+def delete_confirmation_exercise(exercise_id):
+    return list_exercise(exercise_id)
+
+
+@app.route('/delete-exercise/<exercise_id>')
+def delete_exercise(exercise_id=None):
+    try:
+        cursor = mysql.get_db().cursor()
+
+        cursor.execute(
+            'DELETE FROM tbl_exercise WHERE exercise_id = (%s)',
+            (exercise_id)
+        )
+
+        mysql.get_db().commit()
+
+        cursor.close()
+
+        return list_exercise()
+    except Exception as e:
+        error = {
+            'title': 'Internal Server Error',
+            'contents': str(e)
+        }
+
+        return render_template('list-exercise.html', error=error)
+
+
 @app.route('/list-workout')
 def list_workout(workout_id=None):
     try:
@@ -171,7 +340,7 @@ def list_workout(workout_id=None):
                 'workout_start': item[1].strftime("%d/%m/%Y %H:%M"),
                 'workout_conclusion': item[2].strftime("%d/%m/%Y %H:%M"),
                 'exercise_name': exercise_name[0],
-                'instensity': item[4],
+                'intensity': item[4],
                 'description': item[3],
             })
 
@@ -219,18 +388,18 @@ def create_new_workout():
         start = request.form['inputStart']
         conclusion = request.form['inputConclusion']
         exercise_id = request.form['inputExercise']
-        instensity = request.form['inputIntensity']
+        intensity = request.form['inputIntensity']
         description = request.form['inputDescription']
 
-        if exercise_id != 'default' and instensity != 'default':
+        if exercise_id != 'default' and intensity != 'default':
             cursor = mysql.get_db().cursor()
 
             cursor.execute(
                 'INSERT INTO tbl_workout ' +
                 '(workout_start, workout_conclusion, description, ' +
-                'instensity, user_id, exercise_id) ' +
+                'intensity, user_id, exercise_id) ' +
                 'VALUES (%s, %s, %s, %s, %s, %s)',
-                (start, conclusion, description, instensity,
+                (start, conclusion, description, intensity,
                  session['user_id'], exercise_id)
             )
 
@@ -283,7 +452,7 @@ def update_workout(workout_id=None):
             'workout_conclusion': all[2],
             'exercise_id': all[6],
             'exercise_name': exercise_name[0],
-            'instensity': all[4],
+            'intensity': all[4],
             'description': all[3],
         })
 
@@ -310,7 +479,7 @@ def make_update_workout(workout_id=None):
         start = request.form['inputStart']
         conclusion = request.form['inputConclusion']
         exercise_id = request.form['inputExercise']
-        instensity = request.form['inputIntensity']
+        intensity = request.form['inputIntensity']
         description = request.form['inputDescription']
 
         cursor = mysql.get_db().cursor()
@@ -318,10 +487,10 @@ def make_update_workout(workout_id=None):
         cursor.execute(
             'UPDATE tbl_workout SET ' +
             'workout_start = %s, workout_conclusion = %s, ' +
-            'description = %s, instensity = %s, ' +
+            'description = %s, intensity = %s, ' +
             'exercise_id = %s WHERE workout_id = %s',
             (start, conclusion, description,
-                instensity, exercise_id, workout_id)
+                intensity, exercise_id, workout_id)
         )
 
         mysql.get_db().commit()

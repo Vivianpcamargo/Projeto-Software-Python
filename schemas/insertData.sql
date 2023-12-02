@@ -1,3 +1,3 @@
-INSERT INTO tbl_user (user_username, user_password) VALUES ('vivian', '123');
+INSERT INTO tbl_user (user_username, user_password) VALUES ('admin', '123'), ('vivian', '123');
 INSERT INTO tbl_exercise (exercise_name) VALUES ('Muay Thai'),('Natação'),('Futebol');
-INSERT INTO tbl_workout (workout_start, workout_conclusion, description, instensity, user_id, exercise_id) VALUES ('2023-09-10 16:00:00', '2023-09-10 18:00:00', 'treininho bom', 'High', 1, 1),('2023-09-17 13:00:00', '2023-09-17 17:00:00', 'varzea com os amigos', 'Medium', 1, 3),('2023-09-14 16:00:00', '2023-09-14 18:00:00', 'de hoje ta pago', 'High', 1, 1),('2023-09-16 09:00:00', '2023-09-16 10:00:00', 'refrescante', 'Medium', 1, 2);
+INSERT INTO tbl_workout (workout_start, workout_conclusion, description, intensity, user_id, exercise_id) VALUES ('2023-09-10 16:00:00', '2023-09-10 18:00:00', 'treininho bom', 'High', 2, 1),('2023-09-17 13:00:00', '2023-09-17 17:00:00', 'varzea com os amigos', 'Medium', 2, 3),('2023-09-14 16:00:00', '2023-09-14 18:00:00', 'de hoje ta pago', 'High', 2, 1),('2023-09-16 09:00:00', '2023-09-16 10:00:00', 'refrescante', 'Medium', 2, 2);

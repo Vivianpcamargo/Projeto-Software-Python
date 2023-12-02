@@ -1,0 +1,34 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title> Workout Day </title>
+
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="shortcut icon" href="../static/images/logo.png">
+</head>
+
+<body>
+  <div class="full">
+    {% for item in exercise %}
+    <form action="/make-update-exercise/{{ item[0] }}" method="POST">
+      <h1> Exercise </h1>
+
+      <div class="item-form">
+        <label> Name </label>
+        <input type="text" name="inputExercise" value="{{ item[1] }}" required>
+      </div>
+      {% endfor %}
+
+      <div class="footer">
+        <input type="submit" value="Update">
+
+        <div class="fake-button">
+          <a href='/list-exercise'> Back </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

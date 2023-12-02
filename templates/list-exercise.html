@@ -10,63 +10,51 @@
 
 <body>
   <div class="full">
-    <h1> Workout </h1>
+    <h1> Exercises </h1>
 
-    <table class="table-workouts">
+    <table class="table-exercises">
       <tbody>
         <tr>
-          <th class="small"> Id </th>
-          <th> Start </th>
-          <th> Conclusion </th>
-          <th> Exercise </th>
-          <th> Intensity </th>
-          <th class="big"> Description </th>
+          <th> Id </th>
+          <th> Name </th>
           <th> Actions </th>
         </tr>
 
-        {% for item in datas %}
+        {% for item in exercises %}
         <tr>
-          <td class="small"> {{ item.workout_id }} </td>
-          <td> {{ item.workout_start }} </td>
-          <td> {{ item.workout_conclusion }} </td>
-          <td> {{ item.exercise_name }} </td>
-          <td> {{ item.intensity }} </td>
-          <td class="big"> {{ item.description }} </td>
+          <td> {{ item[0] }} </td>
+          <td> {{ item[1] }} </td>
           <td>
-            <a href='/update-workout/{{ item.workout_id }}'>
+            <a href='/update-exercise/{{ item[0] }}'>
               <img src="../static/images/logo-editar.png" alt="Update Logo">
             </a>
-            <a href='/delete-confirmation/{{ item.workout_id }}'>
+            <a href='/delete-confirmation-exercise/{{ item[0] }}'>
               <img src="../static/images/logo-deletar.png" alt="Delete Logo">
             </a>
           </td>
         </tr>
         {% endfor %}
 
-        {% for n in range(13 - datas | length) %}
+        {% for n in range(13 - exercises | length) %}
         <tr>
-          <td class="small"> </td>
           <td> </td>
           <td> </td>
-          <td> </td>
-          <td> </td>
-          <td class="big"> </td>
           <td> </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    {% if workout_id != undefined %}
+    {% if exercise_id != undefined %}
     <section class="modal">
       <div class="modal-content">
-        <a href='/list-workout' class="close-modal">&times;</a>
+        <a href='/list-exercise' class="close-modal">&times;</a>
         <h2>Confirmation</h2>
 
-        <p>Do you really want to delete this workout?</p>
+        <p>Do you really want to delete this exercise?</p>
 
         <div class="fake-button-modal">
-          <a href='/delete-workout/{{ workout_id }}'> Delete </a>
+          <a href='/delete-exercise/{{ exercise_id }}'> Delete </a>
         </div>
       </div>
     </section>
@@ -75,7 +63,7 @@
     {% if error != undefined %}
     <section class="modal">
       <div class="modal-content">
-        <a href='/list-workout' class="close-modal">&times;</a>
+        <a href='/list-exercise' class="close-modal">&times;</a>
         <h2>{{ error['title'] }}</h2>
 
         <p>{{ error['contents'] }}</p>
@@ -85,7 +73,7 @@
 
     <div class="footer-list">
       <div class="fake-button">
-        <a href='/new-workout'> New </a>
+        <a href='/new-exercise'> New </a>
       </div>
 
       <div class="fake-button">
