@@ -1,0 +1,43 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title> Workout Day </title>
+
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="shortcut icon" href="../static/images/logo.png">
+</head>
+
+<body>
+  <div class="full">
+    <form action="/create-new-exercise" method="POST">
+      <h1> Exercise </h1>
+
+      <div class="item-form">
+        <label> Name </label>
+        <input type="text" name="inputExercise" required>
+      </div>
+
+      {% if error != undefined %}
+      <section class="modal">
+        <div class="modal-content">
+          <a href='/new-exercise' class="close-modal">&times;</a>
+          <h2>{{ error['title'] }}</h2>
+
+          <p>{{ error['contents'] }}</p>
+        </div>
+      </section>
+      {% endif %}
+
+      <div class="footer">
+        <input type="submit" value="Create">
+
+        <div class="fake-button">
+          <a href='/list-exercise'> Back </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
